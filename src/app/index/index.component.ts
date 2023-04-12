@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RequestsService } from '../requests.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-index',
@@ -7,27 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(private service: RequestsService) {
+
+  }
 
   ngOnInit(): void {
   }
 
-  create () {
+  create() {
 
-    fetch("http://localhost:5000/payment/createOrder",{method:"POST",headers:{
-      'Content-Type': 'application/json'
-   }}).then(res =>{
-    return res.json()
-   }).then(data =>{
-     
-    
-     window.location.href=data.links[1]?.href
-   })
-   
+    this.service.createOrder().subscribe(data => {
+      window.location.href = data.links[1]?.href;
 
-   
-
- }
-
-
+    });
+  }
+  
 }
